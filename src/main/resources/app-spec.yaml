@@ -1,0 +1,189 @@
+openapi: 3.0.0
+info:
+  title: Controle de Estoque API
+  version: 1.0.0
+paths:
+  /categorias:
+    post:
+      summary: Cria uma nova categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoriaDto'
+      responses:
+        '201':
+          description: Categoria criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categorias'
+        '400':
+          description: Requisição inválida
+        '500':
+          description: Erro interno do servidor
+  /fornecedores:
+    post:
+      summary: Cria um novo fornecedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFornecedorDto'
+      responses:
+        '201':
+          description: Fornecedor criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedores'
+        '400':
+          description: Requisição inválida
+        '500':
+          description: Erro interno do servidor
+  /produtos:
+    post:
+      summary: Cria um novo produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProdutoDto'
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produtos'
+        '400':
+          description: Requisição inválida
+        '500':
+          description: Erro interno do servidor
+components:
+  schemas:
+    CreateCategoriaDto:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+    Categorias:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        ativo:
+          type: boolean
+    CreateFornecedorDto:
+      type: object
+      properties:
+        nome:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+        telefone:
+          type: string
+        email:
+          type: string
+    Fornecedores:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+        telefone:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
+    Endereco:
+      type: object
+      properties:
+        rua:
+          type: string
+        numero:
+          type: string
+        bairro:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        cep:
+          type: string
+    CreateProdutoDto:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        codigoBarra:
+          type: string
+        categoria:
+          type: string
+        precoCusto:
+          type: number
+          format: double
+        precoVenda:
+          type: number
+          format: double
+        unidadeMedida:
+          type: string
+        fornecedor:
+          type: string
+        atributos:
+          type: object
+          additionalProperties: true
+    Produtos:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        codigoBarra:
+          type: string
+        categoria:
+          type: string
+        precoCusto:
+          type: number
+          format: double
+        precoVenda:
+          type: number
+          format: double
+        unidadeMedida:
+          type: string
+        fornecedor:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+        ativo:
+          type: boolean
+        dataCadastro:
+          type: string
+          format: date-time
+        atributos:
+          type: object
+          additionalProperties: true
