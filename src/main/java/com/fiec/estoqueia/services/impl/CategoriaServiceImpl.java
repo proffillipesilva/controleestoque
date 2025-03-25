@@ -7,6 +7,8 @@ import com.fiec.estoqueia.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
@@ -19,5 +21,10 @@ public class CategoriaServiceImpl implements CategoriaService {
         categorias.setNome(createCategoriaDto.getNome());
         categorias.setDescricao(createCategoriaDto.getDescricao());
         return categoriaRepository.save(categorias);
+    }
+
+    @Override
+    public List<Categorias> getCategorias() {
+        return categoriaRepository.findAll();
     }
 }

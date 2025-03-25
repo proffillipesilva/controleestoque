@@ -7,6 +7,8 @@ import com.fiec.estoqueia.services.FornecedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FornecedorServiceImpl implements FornecedorService {
 
@@ -22,5 +24,10 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedor.setEndereco(createFornecedorDto.getEndereco());
 
         return fornecedorRepository.save(fornecedor);
+    }
+
+    @Override
+    public List<Fornecedores> getFornecedores() {
+        return fornecedorRepository.findAll();
     }
 }
