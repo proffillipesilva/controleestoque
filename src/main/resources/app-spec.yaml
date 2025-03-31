@@ -3,6 +3,32 @@ info:
   title: Controle de Estoque API
   version: 1.0.0
 paths:
+  /auth/login:
+    post:
+      summary: Authenticate user and generate JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authentication successful, JWT token returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: The generated JWT token
+        '400':
+          description: Invalid credentials
+          content:
+            text/plain:
+              schema:
+                type: string
   /categorias:
     post:
       summary: Cria uma nova categoria
@@ -21,6 +47,19 @@ paths:
                 $ref: '#/components/schemas/Categorias'
         '400':
           description: Requisição inválida
+        '500':
+          description: Erro interno do servidor
+    get:
+      summary: Lista todas as categorias
+      responses:
+        '200':
+          description: Lista de categorias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categorias'
         '500':
           description: Erro interno do servidor
   /fornecedores:
@@ -43,6 +82,19 @@ paths:
           description: Requisição inválida
         '500':
           description: Erro interno do servidor
+    get:
+      summary: Lista todos os fornecedores
+      responses:
+        '200':
+          description: Lista de fornecedores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fornecedores'
+        '500':
+          description: Erro interno do servidor
   /produtos:
     post:
       summary: Cria um novo produto
@@ -55,6 +107,45 @@ paths:
       responses:
         '201':
           description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produtos'
+        '400':
+          description: Requisição inválida
+        '500':
+          description: Erro interno do servidor
+    get:
+      summary: Lista todos os produtos
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produtos'
+        '500':
+          description: Erro interno do servidor
+    put:
+      summary: Modifica um produto existente
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: ID do produto a ser modificado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProdutoDto'
+      responses:
+        '200':
+          description: Produto modificado com sucesso
           content:
             application/json:
               schema:
@@ -187,3 +278,16 @@ components:
         atributos:
           type: object
           additionalProperties: true
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+        password:
+          type: string
+          description: User's password
+      required:
+        - email
+        - password
