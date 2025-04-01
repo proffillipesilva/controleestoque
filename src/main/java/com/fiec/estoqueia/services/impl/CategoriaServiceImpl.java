@@ -20,6 +20,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categorias categorias = new Categorias();
         categorias.setNome(createCategoriaDto.getNome());
         categorias.setDescricao(createCategoriaDto.getDescricao());
+        categorias.setIcon(createCategoriaDto.getIcon());
         return categoriaRepository.save(categorias);
     }
 

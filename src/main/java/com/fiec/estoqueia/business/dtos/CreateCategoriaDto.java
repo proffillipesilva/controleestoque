@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateCategoriaDto {
     private String nome;
     private String descricao;
+    private String icon;
 }

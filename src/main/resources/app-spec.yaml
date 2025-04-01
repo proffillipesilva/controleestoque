@@ -163,6 +163,8 @@ components:
           type: string
         descricao:
           type: string
+        icon:
+          type: string
     Categorias:
       type: object
       properties:
@@ -171,6 +173,8 @@ components:
         nome:
           type: string
         descricao:
+          type: string
+        icon:
           type: string
         ativo:
           type: boolean
