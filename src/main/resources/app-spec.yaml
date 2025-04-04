@@ -3,6 +3,38 @@ info:
   title: Controle de Estoque API
   version: 1.0.0
 paths:
+  /auth/login:
+    post:
+      summary: Authenticate user and generate JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT authentication token
+        '400':
+          description: Invalid credentials
+          content:
+            text/plain:
+              schema:
+                type: string
+    /auth/logout:
+      delete:
+        summary: Logout user (invalidate token)
+        responses:
+          '200':
+            description: Logout successful
   /categorias:
     post:
       summary: Cria uma nova categoria
@@ -65,6 +97,14 @@ paths:
           description: Erro interno do servidor
 components:
   schemas:
+    LoginRequestDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        senha:
+          type: string
     CreateCategoriaDto:
       type: object
       properties:
