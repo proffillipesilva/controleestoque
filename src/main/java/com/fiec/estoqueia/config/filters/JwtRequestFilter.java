@@ -1,4 +1,4 @@
-package config.filters;
+package com.fiec.estoqueia.config.filters;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

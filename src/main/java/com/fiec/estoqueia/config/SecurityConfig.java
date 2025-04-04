@@ -1,6 +1,6 @@
-package config;
+package com.fiec.estoqueia.config;
 
-import config.filters.JwtRequestFilter;
+import com.fiec.estoqueia.config.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +36,7 @@ public class SecurityConfig  {
                 })
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/auth/login", "/auth/logout").permitAll()
                         .anyRequest().authenticated()
                 );
 
