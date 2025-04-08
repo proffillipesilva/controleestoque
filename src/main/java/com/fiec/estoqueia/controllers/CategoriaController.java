@@ -27,7 +27,7 @@ public class CategoriaController {
 
     @GetMapping
     ResponseEntity<List<Categorias>> getCategorias() throws InterruptedException {
-        Thread.sleep(5000);
+        //.sleep(5000);
         return ResponseEntity.ok(categoriaService.getCategorias());
     }
 }
