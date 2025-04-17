@@ -1,0 +1,437 @@
+openapi: 3.0.0
+info:
+  title: API Specification
+  version: v1
+
+components:
+  schemas:
+    Endereco:
+      type: object
+      properties:
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        bairro:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        cep:
+          type: string
+
+    CreateFornecedorDto:
+      type: object
+      properties:
+        nome:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+        telefone:
+          type: string
+        email:
+          type: string
+
+    Fornecedores:
+      type: object
+      properties:
+        id:
+          type: string
+          description: MongoDB ObjectId
+        nome:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          $ref: '#/components/schemas/Endereco'
+        telefone:
+          type: string
+        email:
+          type: string
+        ativo:
+          type: boolean
+
+    CreateProdutoDto:
+      type: object
+      # Define properties for CreateProdutoDto here
+      properties:
+        nome:
+          type: string
+        preco:
+          type: number
+          format: float
+        fornecedorId:
+          type: string
+          description: MongoDB ObjectId of the Fornecedor
+        categoriaId:
+          type: string
+          description: MongoDB ObjectId of the Categoria
+
+
+    Produtos:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        codigoBarra:
+          type: string
+        categoria:
+          type: string
+        precoCusto:
+          type: number
+          format: double
+        precoVenda:
+          type: number
+          format: double
+        unidadeMedida:
+          type: string
+        fornecedor:
+          type: string
+        imagens:
+          type: array
+          items:
+            type: string
+        ativo:
+          type: boolean
+        dataCadastro:
+          type: string
+          format: date-time
+        atributos:
+          type: object
+          additionalProperties: true
+
+    CreateCategoriaDto:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        icon:
+          type: string
+
+    Categorias:
+      type: object
+      properties:
+        id:
+          type: string
+          description: MongoDB ObjectId
+        nome:
+          type: string
+        descricao:
+          type: string
+        icon:
+          type: string
+
+    LoginRequestDto:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    LoginResponseDto:
+      type: object
+      properties:
+        token:
+          type: string
+
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      description: Page number to retrieve (0-based index)
+      required: false
+      schema:
+        type: integer
+        default: 0
+    sizeParam:
+      name: size
+      in: query
+      description: Number of items per page
+      required: false
+      schema:
+        type: integer
+        default: 10
+    sortByParam:
+      name: sortBy
+      in: query
+      description: Field to sort by
+      required: false
+      schema:
+        type: string
+        default: username
+    sortDirParam:
+      name: sortDir
+      in: query
+      description: Sorting direction (asc or desc)
+      required: false
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: asc
+    statusParam:
+      name: status
+      in: query
+      description: Filter by status
+      required: true
+      schema:
+        type: string
+
+paths:
+  /fornecedores:
+    post:
+      summary: Create a new fornecedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFornecedorDto'
+      responses:
+        '200':
+          description: Successfully created fornecedor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fornecedores'
+    get:
+      summary: Get all fornecedores
+      responses:
+        '200':
+          description: List of fornecedores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fornecedores'
+  /fornecedores/paged:
+    get:
+      summary: Get paginated fornecedores
+      parameters:
+        - $ref: '#/components/parameters/statusParam'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/sizeParam'
+        - $ref: '#/components/parameters/sortByParam'
+        - $ref: '#/components/parameters/sortDirParam'
+      responses:
+        '200':
+          description: Paginated list of fornecedores
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Fornecedores'
+                  pageable:
+                    type: object
+                    properties:
+                      sort:
+                        type: object
+                        properties:
+                          empty:
+                            type: boolean
+                          unsorted:
+                            type: boolean
+                          sorted:
+                            type: boolean
+                      offset:
+                        type: integer
+                      pageSize:
+                        type: integer
+                      pageNumber:
+                        type: integer
+                      paged:
+                        type: boolean
+                      unpaged:
+                        type: boolean
+                  last:
+                    type: boolean
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                  size:
+                    type: integer
+                  number:
+                    type: integer
+                  sort:
+                    type: object
+                    properties:
+                      empty:
+                        type: boolean
+                      unsorted:
+                        type: boolean
+                      sorted:
+                        type: boolean
+                  first:
+                    type: boolean
+                  numberOfElements:
+                    type: integer
+                  empty:
+                    type: boolean
+
+  /produtos:
+    post:
+      summary: Create a new produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProdutoDto'
+      responses:
+        '200':
+          description: Successfully created produto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Produtos'
+    get:
+      summary: Get all produtos
+      responses:
+        '200':
+          description: List of produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produtos'
+  /produtos/paged:
+    get:
+      summary: Get paginated produtos
+      parameters:
+        - $ref: '#/components/parameters/statusParam'
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/sizeParam'
+        - $ref: '#/components/parameters/sortByParam'
+        - $ref: '#/components/parameters/sortDirParam'
+      responses:
+        '200':
+          description: Paginated list of produtos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Produtos'
+                  pageable:
+                    $ref: '#/components/schemas/Page' # Assuming you'll define a Page schema
+                  last:
+                    type: boolean
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                  size:
+                    type: integer
+                  number:
+                    type: integer
+                  sort:
+                    $ref: '#/components/schemas/Sort' # Assuming you'll define a Sort schema
+                  first:
+                    type: boolean
+                  numberOfElements:
+                    type: integer
+                  empty:
+                    type: boolean
+
+  /categorias:
+    post:
+      summary: Create a new categoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoriaDto'
+      responses:
+        '200':
+          description: Successfully created categoria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categorias'
+    get:
+      summary: Get all categorias
+      responses:
+        '200':
+          description: List of categorias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categorias'
+
+  /auth/login:
+    post:
+      summary: Authenticate user and get a token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestDto'
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponseDto'
+        '401':
+          description: Authentication failed
+
+  /auth/logout:
+    delete:
+      summary: Logout user (invalidate token or session)
+      responses:
+        '200':
+          description: Logout successful
+
+  # Define reusable schemas for Page and Sort if needed for cleaner output
+  schemas:
+    Page:
+      type: object
+      properties:
+        sort:
+          $ref: '#/components/schemas/Sort'
+        offset:
+          type: integer
+        pageSize:
+          type: integer
+        pageNumber:
+          type: integer
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+
+    Sort:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
