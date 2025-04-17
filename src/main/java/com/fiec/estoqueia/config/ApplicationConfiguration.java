@@ -46,9 +46,9 @@ public class ApplicationConfiguration {
     public PasswordEncoder passwordEncoder(){
 
         Map<String,PasswordEncoder> encoders= new HashMap<>();
-        encoders.put("", NoOpPasswordEncoder.getInstance());
+        //encoders.put("", NoOpPasswordEncoder.getInstance());
         encoders.put("noop", NoOpPasswordEncoder.getInstance());
-        encoders.put("bcrypt",new BCryptPasswordEncoder());
+        //encoders.put("bcrypt",new BCryptPasswordEncoder());
         //encoders.put("scrypt",new SCryptPasswordEncoder());
         return new DelegatingPasswordEncoder("noop",encoders);
     }

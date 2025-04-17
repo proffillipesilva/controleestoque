@@ -33,10 +33,9 @@ public class ProdutoControllerImpl implements ProdutoController {
     }
 
     @GetMapping("/paged")
-    public Page<Produtos> getUsersByStatus(@RequestParam String status,
-                                               @RequestParam(defaultValue = "0") int page,
+    public Page<Produtos> getProdutosPaginated(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "10") int size,
-                                               @RequestParam(defaultValue = "username") String sortBy,
+                                               @RequestParam(defaultValue = "nome") String sortBy,
                                                @RequestParam(defaultValue = "asc") String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?

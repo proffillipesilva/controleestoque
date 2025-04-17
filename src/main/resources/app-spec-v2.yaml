@@ -220,7 +220,6 @@ paths:
     get:
       summary: Get paginated fornecedores
       parameters:
-        - $ref: '#/components/parameters/statusParam'
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/sizeParam'
         - $ref: '#/components/parameters/sortByParam'
@@ -316,7 +315,6 @@ paths:
     get:
       summary: Get paginated produtos
       parameters:
-        - $ref: '#/components/parameters/statusParam'
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/sizeParam'
         - $ref: '#/components/parameters/sortByParam'

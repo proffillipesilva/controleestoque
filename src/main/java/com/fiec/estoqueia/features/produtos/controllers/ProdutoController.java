@@ -22,9 +22,8 @@ public interface ProdutoController {
     ResponseEntity<List<Produtos>> getProdutos();
 
     @GetMapping("/paged")
-    public Page<Produtos> getUsersByStatus(@RequestParam String status,
-                                           @RequestParam(defaultValue = "0") int page,
+    Page<Produtos> getProdutosPaginated(   @RequestParam(defaultValue = "0") int page,
                                            @RequestParam(defaultValue = "10") int size,
-                                           @RequestParam(defaultValue = "username") String sortBy,
+                                           @RequestParam(defaultValue = "nome") String sortBy,
                                            @RequestParam(defaultValue = "asc") String sortDir);
 }
