@@ -1,5 +1,7 @@
 package com.fiec.estoqueia.features.fornecedores.business.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fiec.estoqueia.business.entities.Endereco;
 import lombok.Data;
 import org.bson.types.ObjectId;
@@ -10,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "fornecedores")
 public class Fornecedores {
     @Id
+    @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId id;
     private String nome;
     private String cnpj;

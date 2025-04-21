@@ -187,6 +187,14 @@ components:
       required: true
       schema:
         type: string
+  thumbnailParam:
+    name: thumbnail
+    in: query
+    description: Whether to retrieve the thumbnail (true) or the original image (false). Defaults to false.
+    required: false
+    schema:
+      type: boolean
+      default: false
 
 paths:
   /fornecedores:
@@ -351,7 +359,37 @@ paths:
                     type: integer
                   empty:
                     type: boolean
-
+  /produtos/{id}/images:
+    put:
+      summary: Upload an image for a product
+      description: Uploads an image and associates it with the product specified by the ID.
+      operationId: uploadImage
+      parameters:
+        - name: id
+          in: path
+          description: ID of the product to update.
+          required: true
+          schema:
+            type: string # Use string for ObjectId representation in OpenAPI
+            format: objectid # Custom format, often used for MongoDB ObjectIds
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The image file to upload.
+      responses:
+        '204':
+          description: Image uploaded successfully.  No content is returned.
+        '400':
+          description: Bad request.  Indicates an invalid request, such as an empty file or invalid file type.
+        '500':
+          description: Internal server error.  Indicates an error on the server while processing the image upload.
   /categorias:
     post:
       summary: Create a new categoria
@@ -379,6 +417,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Categorias'
+
+  /images/{filename}:
+    get:
+      summary: Retrieve an image (original or thumbnail)
+      operationId: getImage
+      parameters:
+        - name: filename
+          in: path
+          description: Name of the image file to retrieve.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/thumbnailParam'
+      responses:
+        '200':
+          description: Successful retrieval of the image. The content type will vary based on the image type.
+          content:
+            image/jpeg: { }
+            image/png: { }
+            image/gif: { }
+            # Add other potential image MIME types
+            application/octet-stream: { } # Default if content type cannot be determined
+        '404':
+          description: Image not found.
+        '500':
+          description: Internal server error.
 
   /auth/login:
     post:

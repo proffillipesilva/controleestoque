@@ -1,5 +1,6 @@
 package com.fiec.estoqueia.features.categorias.services.impl;
 
+import com.fiec.estoqueia.aspect.ServiceMethod;
 import com.fiec.estoqueia.features.categorias.business.dtos.CreateCategoriaDto;
 import com.fiec.estoqueia.features.categorias.business.entities.Categorias;
 import com.fiec.estoqueia.features.categorias.business.repositories.CategoriaRepository;
@@ -16,6 +17,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     CategoriaRepository categoriaRepository;
 
     @Override
+    @ServiceMethod
     public Categorias createCategoria(CreateCategoriaDto createCategoriaDto) {
         Categorias categorias = new Categorias();
         categorias.setNome(createCategoriaDto.getNome());
@@ -25,6 +27,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
+    @ServiceMethod
     public List<Categorias> getCategorias() {
         return categoriaRepository.findAll();
     }

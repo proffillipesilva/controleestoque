@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### File Folders ###
+thumbnails
+thumbnails/
+uploads
+uploads/
+
+#logs
+logs
+logs/

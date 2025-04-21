@@ -1,5 +1,7 @@
 package com.fiec.estoqueia.features.produtos.business.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,6 +17,7 @@ import java.util.Map;
 @Document(collection = "produtos")
 public class Produtos {
     @Id
+    @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId id;
     private String nome;
     private String descricao;
